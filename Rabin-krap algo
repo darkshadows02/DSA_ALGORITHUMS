@@ -15,15 +15,15 @@
               
            for(int i=0; i<=(n-m); i++){
                if(p==t){
-                     for(j=0; j<m; j++){
-                          if(text[i+j]!=pat[i]){
+                    /* for(j=0; j<m; j++){
+                          if(text[i+j]!=pat[j]){
                               break; 
                             }
                        }
                     if(j==m){
                         cnt++;
-                      }
-                     
+                      } */   // a/c to the question
+                     cnt++;
                }
                if(i<n-m){
                    t=(d*(t-(text[i])*h)+((text[i+m])))%q;
