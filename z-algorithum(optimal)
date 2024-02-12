@@ -1,0 +1,40 @@
+        vector<int> z_algo(string &s){
+                 vector<int> z(s.size());
+                    int l=0, r=0;
+                      z[0]=0;
+                   for(int i=1; i<s.size(); i++){
+                         if(i>r){
+                               l=i; r=i;
+                               while(r<s.size() && s[r]==s[r-l]){
+                                     r++;
+                               }
+                               z[i]=r-l;
+                                  r--;
+                         }else if(i<=r){
+                               int k=i-l;
+                               if(z[k]<r+1-i){
+                                   z[i]=z[k];
+                               }else{
+                                   l=i;
+                                   while(r<s.size() && s[r-l]==s[r]){
+                                       r++;
+                                   }
+                                   z[i]=r-l;
+                                   r--;
+                               }
+                         }
+                   }
+                   return z;
+          }
+        vector <int> search(string pat, string txt)
+        {
+               string p=pat+'&'+txt;
+               vector<int> ans;
+               auto x=z_algo(p);
+               for(int i=0; i<x.size(); i++){
+                     if(x[i]==pat.size()){
+                         ans.push_back(i-pat.size());
+                     }
+               }
+               return ans;
+        }
