@@ -1,0 +1,32 @@
+ class disjointset{
+       public:
+         vector<int> par, rank;
+         disjointset(int v){
+                 par.resize(v+1);
+                 rank.resize(v+1, 0);
+               for(int i=0; i<=v; i++){
+                   par[i]=i;
+               }
+         }
+         int parent(int n){
+              if(par[n]==n){
+                  return n;
+              }
+              return par[n]=parent(par[n]);
+         }
+         void union_by_rank(int u, int v){
+                int ulp_u=parent(u);
+                int ulp_v=parent(v);
+                if(ulp_u==ulp_v){
+                    return ;
+                }
+                if(rank[ulp_u]<rank[ulp_v]){
+                    par[ulp_u]=ulp_v;
+                }else if(rank[ulp_v]<rank[ulp_u]){
+                    par[ulp_v]=ulp_u;
+                }else{
+                    par[ulp_v]=ulp_u;
+                    rank[ulp_u]++;
+                }
+         }
+   };
