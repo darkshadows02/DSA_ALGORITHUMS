@@ -1,0 +1,31 @@
+   class Node{
+       public:
+          Node*links[26];
+            bool charcontain(char ch){
+                return links[ch-'a']!=NULL;
+            }
+            void set(char ch, Node*node){
+                   links[ch-'a']=node;
+            }
+            Node*get(char ch){
+                return links[ch-'a'];
+            }
+    };
+
+
+int countDistinctSubstrings(string &s)
+{
+       Node*root=new Node();
+          int c=0;
+           for(int i=0; i<s.size(); i++) {
+                Node*node=root;
+                 for(int j=i; j<s.size(); j++){
+                        if(!node->charcontain(s[j])){
+                               node->set(s[j], new Node());
+                               c++;
+                        }
+                        node=node->get(s[j]);
+                 }
+           }
+           return c+1;
+}
