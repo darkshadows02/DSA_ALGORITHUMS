@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+   using namespace  std;
+
+struct Node{
+      Node* links[2];
+            bool containskey(int bit){
+                  return (links[bit]!=NULL);
+            }
+            void put(int bit, Node*node){
+                   links[bit]=node;
+            }
+            Node*get(int bit){
+                 return links[bit];
+            }
+   };
+
+  class Tries{
+          Node*root;
+            public:
+              Tries(){
+                  root=new Node();
+              }
+              void insert(int num){
+                     Node*node=root;
+                     for(int i=31; i>=0; i--){
+                         int bit=( (num>>i) &1);
+                           if(!node->containskey(bit)){
+                                 node->put(bit, new Node());
+                           }
+                           node=node->get(bit);
+                     }
+              }
+              int maxelement(int num){
+                  Node*node=root; 
+                  int maxi=0;
+                      for(int i=31; i>=0; i--){
+                          int bit=((num>>i) & 1);
+                             if(node->containskey(!bit)){
+                                  maxi= maxi | (1<<i);
+                                  node=node->get(!bit);
+                             }else{
+                                   node=node->get(bit);
+                             }
+                      }
+                      return maxi;
+              }
+              
+  };
+
+static bool comp(vector<int> &a1, vector<int> &a2){
+	return a1[1]<a2[1];
+}
+
+vector<int> maxXorQueries(vector<int> &arr, vector<vector<int>> &queries){
+	             Tries t;
+	      sort(arr.begin(), arr.end());
+		     for(int i=0;i<queries.size(); i++){
+				 queries[i].push_back(i);
+			 }
+		  sort(queries.begin(), queries.end(), comp);
+             vector<int> ans(queries.size());
+		      int last=-1;
+			    for(auto x:queries){
+					   int val=x[1];
+					   if(arr[0]>val){
+						   ans[x[2]]=-1;
+					   }else{
+						    int i;
+						       if(last==-1){
+								      for(i=0; i<arr.size(); i++){
+										    if(arr[i]<=val){
+                                                t.insert(arr[i]);
+											}else{
+												break;
+											}
+									  }
+									  last=i-1;
+							   }else{
+								   for(i=last; i<arr.size(); i++){
+									     if(arr[i]<=val){
+                                                t.insert(arr[i]);
+											}else{
+												break;
+											}
+								   }
+								   last=i-1;
+							   }
+							int maxi= t.maxelement(x[0]);
+                             ans[x[2]]=maxi;
+					   }
+				}
+				return ans;
+}
