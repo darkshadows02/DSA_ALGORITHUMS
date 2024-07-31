@@ -27,6 +27,7 @@
           Trie(){
               root=new Node();
           }
+   // set word into tire
           void setword(string &word){
                   Node*node=root;
                  for(int i=0; i<word.size(); i++){
@@ -37,6 +38,7 @@
                  }
                  node->setend();
           }
+// checking for word they have all prefix persent or not
           bool allprifixpersent(string &word){
                     Node*node=root;
                  for(int i=0; i<word.size(); i++){
@@ -55,9 +57,11 @@
  };
 string completeString(int n, vector<string> &a){
              Trie *node=new Trie();
+   // set all the words into trie
              for(int i=0;i<a.size(); i++){
                     node->setword(a[i]);
              }
+//  checking for word prefix
                string ans;
                for(int i=0; i<a.size(); i++){
                       if(node->allprifixpersent(a[i])==true){
