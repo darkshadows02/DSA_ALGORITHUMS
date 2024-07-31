@@ -1,0 +1,77 @@
+ #include <bits/stdc++.h> 
+ struct Node{
+        Node* links[26];
+        bool flg;
+         public:
+       bool containkey(char ch){
+           return links[ch-'a']!=NULL;
+       }
+       void put(char ch, Node*node){
+           links[ch-'a']=node;
+       }
+       Node*get(char ch){
+           return links[ch-'a'];
+       }
+       void setend(){
+           flg=true;
+       }
+       bool getend(){
+           return flg;
+       }
+
+ };
+
+ struct Trie{
+      Node*root;
+          public:
+          Trie(){
+              root=new Node();
+          }
+          void setword(string &word){
+                  Node*node=root;
+                 for(int i=0; i<word.size(); i++){
+                        if(!node->containkey(word[i])){
+                             node->put(word[i], new Node());
+                        }
+                        node=node->get(word[i]);
+                 }
+                 node->setend();
+          }
+          bool allprifixpersent(string &word){
+                    Node*node=root;
+                 for(int i=0; i<word.size(); i++){
+                     if(node->containkey(word[i])){
+                      node=node->get(word[i]);
+                      if (node->getend() == false) {
+                        return false;
+                      }
+                     }else{
+                         return false;
+                     }
+                 }
+                 return  true;
+          }
+          
+ };
+string completeString(int n, vector<string> &a){
+             Trie *node=new Trie();
+             for(int i=0;i<a.size(); i++){
+                    node->setword(a[i]);
+             }
+               string ans;
+               for(int i=0; i<a.size(); i++){
+                      if(node->allprifixpersent(a[i])==true){
+                          if(ans.size()<a[i].size()){
+                              ans=a[i];
+                          }else if(ans.size()==a[i].size()){
+                              if(ans>a[i]){
+                                  ans=a[i];
+                              }
+                          }
+                      }
+               }
+                  if(ans.size()==0){
+                      return "None";
+                  }
+               return ans;
+}
